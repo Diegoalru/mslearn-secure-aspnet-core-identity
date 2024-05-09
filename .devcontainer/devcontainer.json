@@ -1,38 +1,41 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
-// https://github.com/microsoft/vscode-dev-containers/tree/v0.224.3/containers/dotnet-mssql
 {
 	"name": "MS Learn: Secure a .NET web app with the ASP.NET Core Identity framework",
 	"dockerComposeFile": "docker-compose.yml",
 	"service": "app",
 	"workspaceFolder": "/workspace",
-
-	// Set *default* container specific settings.json values on container create.
-	"settings": {
-		"mssql.connections": [
-			{
-				"server": "localhost,1433",
-				"database": "",
-				"authenticationType": "SqlLogin",
-				"user": "sa",
-				"password": "P@ssw0rd",
-				"emptyPasswordInput": false,
-				"savePassword": true,
-				"profileName": "mssql-container",
-				"encrypt": false
+	"customizations": {
+		"vscode": {
+			// Add the IDs of extensions you want installed when the container is created.
+			"extensions": [
+				"ms-dotnettools.csharp",
+				"ms-mssql.mssql",
+				"ms-dotnettools.csdevkit",
+				"GitHub.copilot"
+			],
+			"settings": {
+				"mssql.connections": [
+					{
+						"server": "localhost,1433",
+						"database": "RazorPagesPizza",
+						"authenticationType": "SqlLogin",
+						"user": "sa",
+						"password": "P@ssw0rd",
+						"emptyPasswordInput": false,
+						"savePassword": true,
+						"profileName": "mssql-container",
+						"encrypt": "Optional"
+					}
+				]
 			}
-		]
+		}
 	},
-
-	// Add the IDs of extensions you want installed when the container is created.
-	"extensions": [
-		"ms-dotnettools.csharp",
-		"ms-mssql.mssql",
-		"ms-dotnettools.csdevkit"
-	],
-
+	"features": {
+		"ghcr.io/devcontainers/features/sshd:1": {
+			"version": "latest"
+		}
+	},
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [5211, 7192],
-
 	"portsAttributes": {
 		"5211": {
 			"label": "RazorPagesPizza HTTP",
@@ -44,7 +47,6 @@
 			"protocol": "https"
 		}
 	},
-
 	// [Optional] To reuse of your local HTTPS dev cert:
 	//
 	// 1. Export it locally using this command:
@@ -63,13 +65,6 @@
 	//      1. Start the container
 	//      2. Drag ~/.aspnet/https/aspnetapp.pfx into the root of the file explorer
 	//      3. Open a terminal in VS Code and run "mkdir -p /home/vscode/.aspnet/https && mv aspnetapp.pfx /home/vscode/.aspnet/https"
-
 	// postCreateCommand.sh parameters: $1=SA password, $2=dacpac path, $3=sql script(s) path
-	"postCreateCommand": "bash .devcontainer/scripts/postCreateCommand.sh 'P@ssw0rd' './bin/Debug/' './.devcontainer/scripts/'",
-	"features": {
-		"ghcr.io/devcontainers/features/sshd:1": {
-			"version": "latest"
-		}
-	}
-
+	"postCreateCommand": "bash .devcontainer/scripts/postCreateCommand.sh 'P@ssw0rd' './bin/Debug/' './.devcontainer/scripts/'"
 }
